@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joalyson — Caderno de motion</title>
+<meta name="description" content="Joalyson, designer gráfico e motion designer. Animações que comunicam, envolvem e geram impacto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
+<style>
+:root{
+  --paper:#f1f0ec; --white:#fafafa; --ink:#141414; --muted:#45453f; --red:#d42a25; --black:#151515;
+  --f:'Archivo',sans-serif; --hand:'Caveat',cursive;
+  --m:clamp(16px,2.4vw,36px);
+  --step-body:clamp(1.0625rem,1rem + .25vw,1.1875rem);
+  --step-lead:clamp(1.25rem,1.1rem + .6vw,1.5rem);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+html{overflow-x:clip}
+body{background-color:var(--paper);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M28 0H0v28' fill='none' stroke='%23d9d8d1' stroke-width='1'/%3E%3C/svg%3E");color:var(--ink);font-family:var(--f);font-size:var(--step-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3,p,figure,ul,ol,dl,dd{margin:0}
+ul,ol{list-style:none;padding:0}
+::selection{background:var(--red);color:var(--white)}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.wrap{padding-inline:var(--m)}
+.wide{font-stretch:125%;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.88}
+.hand{font-family:var(--hand);font-weight:600;line-height:1}
+.h2{font-size:clamp(48px,7vw,112px)}
+
+.btn{display:inline-flex;align-items:center;gap:.3em;min-height:50px;padding:0 24px;background:var(--ink);color:var(--white);font-weight:700;font-size:16px;text-decoration:none;border:0;cursor:pointer;transition:transform .3s var(--ease),background-color .2s}
+.btn:hover{background:var(--red);transform:rotate(-2deg) scale(1.03)}
+.btn:active{transform:scale(.96)}
+.link{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.2em;transition:color .2s}
+.link:hover{color:var(--red)}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px var(--m);background:var(--paper);transition:transform .5s var(--ease)}
+.nav.hide{transform:translateY(-100%)}
+.nav .word .mini{display:none;width:40px;height:40px;border-radius:50%;border:2.5px solid var(--ink);background:var(--white)}
+.nav .word{font-weight:900;font-stretch:125%;font-size:20px;text-decoration:none;text-transform:uppercase;letter-spacing:-.02em}
+.nav ul{display:flex;gap:28px;align-items:center;font-weight:600;font-size:16px}
+.navr{display:flex;align-items:center;gap:clamp(16px,2.4vw,36px)}
+.lang{position:relative;display:flex;align-items:center;gap:6px;font-size:28px;line-height:1}
+.lang button{position:relative;z-index:1;background:none;border:0;padding:6px 8px;min-width:44px;min-height:44px;font:inherit;color:var(--muted);cursor:pointer;transition:color .2s,transform .3s var(--ease)}
+.lang button:hover{color:var(--ink);transform:rotate(-6deg)}
+.lang button[aria-pressed="true"]{color:var(--ink)}
+.lang span{color:var(--muted)}
+.loop{position:absolute;top:0;left:0;height:48px;width:58px;pointer-events:none;overflow:visible;transition:transform .45s var(--ease)}
+.loop path{fill:none;stroke:var(--red);stroke-width:2.6;stroke-linecap:round}
+.nav ul a:not(.btn){text-decoration:none}
+.nav ul a:not(.btn):hover{color:var(--red)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr);padding-top:clamp(120px,14vh,160px);padding-bottom:24px;position:relative}
+.name-wrap{position:relative}
+.name{font-size:15vw;white-space:nowrap;text-align:center}
+.name .in{display:inline-block}
+.name .ch{display:inline-block}
+.face{display:inline-block;position:relative;width:.8em;height:.8em;vertical-align:-.03em;margin:0 .01em}
+.face img{width:100%;height:100%;border-radius:50%;box-sizing:border-box;border:.06em solid var(--ink);background:var(--white);transition:transform .6s var(--ease)}
+.face:hover img{transform:rotate(-12deg) scale(1.06)}
+.note{position:absolute;font-size:clamp(24px,2.4vw,36px);color:var(--ink);white-space:nowrap;display:flex;align-items:flex-start;gap:6px;pointer-events:none}
+.note svg{width:clamp(36px,3.4vw,52px);height:auto;overflow:visible}
+.note path{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.stars{display:flex;justify-content:center;gap:14px;margin-top:clamp(56px,6vw,88px)}
+.stars svg{width:clamp(22px,2vw,30px);height:auto}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:clamp(24px,4vw,48px)}
+.hero-foot p{max-width:40ch;font-size:var(--step-lead);line-height:1.35}
+.hero-foot .r{display:flex;flex-direction:column;align-items:flex-end;gap:12px;font-weight:600;font-size:16px}
+
+/* about: selection frame + hello + tools */
+.about{display:grid;grid-template-columns:repeat(12,1fr);gap:28px;padding-block:clamp(96px,10vw,160px);align-items:start}
+.sel-col{grid-column:1/5}
+.sel{position:relative;width:86%;margin:28px auto 0;touch-action:none}
+.sel img{width:100%;height:auto;user-select:none;pointer-events:none}
+.sel .box{position:absolute;inset:-6px;border:2px solid var(--red);pointer-events:none}
+.sel .h{position:absolute;width:14px;height:14px;background:var(--white);border:2px solid var(--red);transform:translate(-50%,-50%)}
+.sel .h.tl{left:0;top:0}.sel .h.tr{left:100%;top:0}.sel .h.bl{left:0;top:100%}.sel .h.br{left:100%;top:100%;cursor:nwse-resize;pointer-events:auto;width:22px;height:22px}
+.sel .h.tm{left:50%;top:0}.sel .h.bm{left:50%;top:100%}.sel .h.ml{left:0;top:50%}.sel .h.mr{left:100%;top:50%}
+.sel .tag{position:absolute;left:-6px;top:-38px;background:var(--red);color:var(--white);font-size:14px;font-weight:600;padding:4px 10px}
+.sel .dim{position:absolute;left:50%;bottom:-40px;transform:translateX(-50%);background:var(--red);color:var(--white);font-size:14px;font-weight:600;padding:3px 10px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sel-hint{margin-top:64px;text-align:center;font-size:26px;color:var(--red)}
+.hello{grid-column:5/9}
+.hello .h2{margin-bottom:24px}
+.hello p{max-width:42ch}
+.hello p+p{margin-top:1em}
+.hello h3,.side h3{font-stretch:125%;font-weight:900;text-transform:uppercase;font-size:clamp(24px,2.2vw,32px);letter-spacing:-.01em;margin:40px 0 14px}
+.path li{display:grid;grid-template-columns:7.5em 1fr;gap:12px;padding:6px 0}
+.path b{font-weight:700}
+.side{grid-column:9/13}
+.side h3:first-child{margin-top:12px}
+.tools{display:grid;grid-template-columns:repeat(3,64px);gap:12px}
+.tool{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font-weight:800;font-size:24px;letter-spacing:-.02em;transition:transform .4s var(--ease)}
+.tool:hover{transform:translateY(-6px) rotate(-6deg)}
+.t-ae{background:#00005b;color:#9999ff}.t-pr{background:#00005b;color:#ea77ff}.t-ai{background:#330000;color:#ff9a00}.t-ps{background:#001e36;color:#31a8ff}.t-fg{background:var(--ink);color:#fff}.t-c4{background:#011a6a;color:#fff;font-size:20px}
+.side .now li{padding:6px 0}
+.side .now b{display:block}
+
+/* black torn band with the name running behind the sticker */
+.band{position:relative;margin-top:clamp(80px,12vw,180px);background:var(--black);color:var(--paper);height:min(78svh,720px);overflow:visible}
+.torn{position:absolute;left:0;width:100%;height:36px;display:block;fill:var(--black)}
+.torn.t{top:-35px}.torn.b{bottom:-35px;transform:scaleY(-1)}
+.band .rows{position:absolute;inset:0;overflow:hidden;display:grid;align-content:center;gap:2vw}
+.band .row{font-size:clamp(64px,10.5vw,170px);white-space:nowrap;will-change:transform}
+.band .row span{display:inline-block;padding-right:.35em}
+.band .row.o{color:transparent;-webkit-text-stroke:2px var(--paper)}
+.band .gl{display:inline-block;width:.62em;height:.62em;vertical-align:.04em;fill:var(--paper)}
+.band .row.o .gl{fill:var(--red)}
+.sticker{position:absolute;left:50%;bottom:0;width:min(34vw,46svh,460px);transform:translateX(-50%);z-index:3;cursor:grab;touch-action:none}
+.sticker img{width:100%;height:auto;pointer-events:none;user-select:none}
+.band-cap{position:absolute;right:calc(var(--m) + 10px);bottom:24px;z-index:4;color:var(--paper);font-size:clamp(24px,2.2vw,32px);transform:rotate(-4deg)}
+
+/* works: taped prints */
+.work{padding-top:clamp(120px,14vw,220px)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,72px)}
+.work-head p{max-width:34ch}
+.prints{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(32px,4vw,64px) clamp(24px,3vw,48px);align-items:start}
+.print{position:relative;background:var(--white);padding:12px 12px 0;transform:rotate(var(--r));transition:transform .5s var(--ease);will-change:transform}
+.print:hover{transform:rotate(0deg) scale(1.03);z-index:5}
+.print video{width:100%;height:auto;background:var(--ink)}
+.print figcaption{padding:12px 4px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.print figcaption b{font-family:var(--hand);font-size:30px;font-weight:600;line-height:1}
+.print figcaption span{font-size:15px;color:var(--muted)}
+.tape{position:absolute;top:-16px;left:50%;width:110px;height:30px;background:rgba(212,42,37,.5);transform:translateX(-50%) rotate(var(--tr,-4deg))}
+.print:nth-child(3n+2){margin-top:64px}
+.print:nth-child(3n+3){margin-top:24px}
+
+/* services: list with circled times */
+.serv{padding-top:clamp(120px,14vw,220px)}
+.serv .h2{margin-bottom:clamp(32px,4vw,56px)}
+.slist li{display:grid;grid-template-columns:1.3fr 1fr auto;gap:24px;align-items:center;padding:18px 0}
+.slist .n{font-stretch:125%;font-weight:800;font-size:clamp(26px,3vw,44px);letter-spacing:-.02em;line-height:1}
+.slist .d{color:var(--muted)}
+.slist .t{position:relative;font-family:var(--hand);font-size:clamp(26px,2.4vw,34px);color:var(--red);padding:4px 18px;white-space:nowrap;text-align:center}
+.slist .t svg{position:absolute;inset:-6px -4px;width:calc(100% + 8px);height:calc(100% + 12px);overflow:visible}
+.slist .t ellipse{fill:none;stroke:var(--red);stroke-width:2.5}
+.slist .grp{font-family:var(--hand);font-size:34px;color:var(--ink);padding-top:28px}
+
+/* contact: taped note */
+.contact{padding-block:clamp(140px,16vw,240px) clamp(96px,10vw,160px);display:grid;place-items:center}
+.notecard{position:relative;background:var(--white);width:min(980px,100%);padding:clamp(40px,5vw,72px);transform:rotate(-1.5deg)}
+.notecard .torn{fill:var(--white)}
+.notecard .tape{top:-18px;width:140px}
+.notecard h2{font-size:clamp(40px,6vw,96px);margin-bottom:28px}
+.notecard .mail{display:inline-block;font-stretch:110%;font-weight:800;font-size:clamp(24px,3.8vw,56px);letter-spacing:-.02em;text-decoration:none;word-break:break-word;transition:color .2s}
+.notecard .mail:hover{color:var(--red)}
+.notecard .row{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-top:36px}
+.notecard .row ul{display:flex;gap:20px;font-weight:600}
+.notecard .ps{position:absolute;right:clamp(24px,4vw,56px);top:-40px;font-size:clamp(26px,2.4vw,34px);color:var(--red);transform:rotate(6deg)}
+
+/* footer */
+.foot{position:relative;background:var(--black);color:var(--paper);margin-top:40px;padding-top:56px;overflow:hidden}
+.foot .torn{top:-35px;position:absolute}
+.foot .big{font-size:16vw;white-space:nowrap;text-align:center;line-height:.82;transform:translateY(12%)}
+.foot .legal{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:16px;color:#c9c8c0;padding-bottom:28px}
+.foot .legal p{max-width:70ch}
+
+.js [data-rv]{opacity:0;transform:translateY(28px)}
+
+@media (max-width:900px){
+  .about{grid-template-columns:1fr 1fr}
+  .sel-col{grid-column:1/2}.hello{grid-column:2/3}.side{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+  .prints{grid-template-columns:1fr 1fr}
+  .print:nth-child(n){margin-top:0}.print:nth-child(2n){margin-top:48px}
+}
+@media (max-width:600px){
+  .nav ul li:not(:last-child){display:none}
+  .nav .lg{display:none}
+  .nav .btn{padding:0 18px}
+  .lang{font-size:24px;gap:0}
+  .h2{font-size:11.5vw}
+  .nav .word span{display:none}
+  .nav .word .mini{display:block}
+  .nav .word{display:flex}
+  .lang button{min-width:40px;padding:6px 4px}
+  .hero-foot{flex-direction:column;align-items:flex-start}
+  .hero-foot .r{align-items:flex-start}
+  .about{grid-template-columns:1fr}
+  .sel-col,.hello,.side{grid-column:1}
+  .side{grid-template-columns:1fr}
+  .sel{width:78%}
+  .band{height:62svh}
+  .sticker{width:min(72vw,52svh)}
+  .band-cap{bottom:14px}
+  .prints{grid-template-columns:1fr}
+  .print:nth-child(n){margin-top:0}
+  .slist li{grid-template-columns:1fr auto;gap:8px 16px}
+  .slist .d{grid-column:1/3;grid-row:2;font-size:16px}
+  .notecard .ps{top:-34px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<header class="nav" id="nav">
+  <a class="word" href="#topo"><img class="mini" src="../assets/photos/joalyson-stamp-hq.webp" alt="" width="520" height="520"><span>Joalyson</span></a>
+  <div class="navr">
+  <div class="lang hand" id="lang" role="group" aria-label="Idioma">
+    <button type="button" data-l="pt" aria-pressed="true" lang="pt-BR">PT</button>
+    <span aria-hidden="true">/</span>
+    <button type="button" data-l="en" aria-pressed="false" lang="en">EN</button>
+    <svg class="loop" id="loop" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true"><path d="M86 18 C 70 2, 22 4, 10 22 C 0 40, 30 56, 58 54 C 86 52, 98 36, 88 20 C 82 12, 70 8, 60 9" pathLength="1"/></svg>
+  </div>
+  <nav aria-label="Principal"><ul>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#trabalhos">Trabalhos</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a class="btn" href="#contato"><span class="lg">Bora</span>conversar</a></li>
+  </ul></nav>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero wrap" aria-labelledby="h1">
+    <div class="name-wrap">
+      <h1 class="name wide" id="h1" aria-label="Joalyson, motion designer e designer gráfico"><span class="in" aria-hidden="true"><span class="ch">J</span><span class="ch face"><img src="../assets/photos/joalyson-stamp-hq.webp" alt="" width="520" height="520"></span><span class="ch">A</span><span class="ch">L</span><span class="ch">Y</span><span class="ch">S</span><span class="ch">O</span><span class="ch">N</span></span></h1>
+      <p class="note hand" id="note" aria-hidden="true"><svg viewBox="0 0 50 50"><path d="M44 46 C 30 40, 18 28, 12 8 M4 16 L12 6 L20 15"/></svg><span>esse sou eu</span></p>
+    </div>
+    <div class="stars" aria-hidden="true">
+      <svg viewBox="0 0 40 40"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z" fill="#141414"/></svg>
+      <svg viewBox="0 0 40 40"><path d="M20 0 C 22 14, 26 18, 40 20 C 26 22, 22 26, 20 40 C 18 26, 14 22, 0 20 C 14 18, 18 14, 20 0 Z" fill="#141414"/></svg>
+      <svg viewBox="0 0 40 40"><circle cx="20" cy="9" r="9" fill="#141414"/><circle cx="9" cy="24" r="9" fill="#141414"/><circle cx="31" cy="24" r="9" fill="#141414"/><rect x="18" y="20" width="4" height="20" fill="#141414"/></svg>
+    </div>
+    <div class="hero-foot">
+      <p data-hero>Designer gráfico e motion designer. Transformo ideias em animações que comunicam, envolvem e geram impacto.</p>
+      <div class="r" data-hero>
+        <a class="btn" href="#trabalhos">Ver trabalhos</a>
+        <span>Portfólio 2026 · Brasil</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about wrap" id="sobre" aria-labelledby="t-hello">
+    <div class="sel-col" data-rv>
+      <div class="sel" id="sel">
+        <img src="../assets/photos/joalyson-cut-hq.webp" alt="Joalyson, de camiseta preta e braços cruzados, sorrindo" width="661" height="992">
+        <span class="box" aria-hidden="true"></span>
+        <span class="tag" aria-hidden="true">joalyson.png</span>
+        <span class="h tl" aria-hidden="true"></span><span class="h tm" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span>
+        <span class="h ml" aria-hidden="true"></span><span class="h mr" aria-hidden="true"></span>
+        <span class="h bl" aria-hidden="true"></span><span class="h bm" aria-hidden="true"></span>
+        <span class="h br" id="grip" role="slider" tabindex="0" aria-label="Redimensionar a foto" aria-valuemin="60" aria-valuemax="100" aria-valuenow="100"></span>
+        <span class="dim" id="dim" aria-hidden="true">661 × 992</span>
+      </div>
+      <p class="sel-hint hand" aria-hidden="true">puxa o canto ↘</p>
+    </div>
+    <div class="hello">
+      <h2 class="h2 wide" id="t-hello" data-rv>Olá</h2>
+      <p data-rv><b>Sou Joalyson, 22 anos.</b> Designer gráfico e motion designer, criando desde os 16.</p>
+      <p data-rv>Comecei como finalista numa gráfica, onde aprendi composição e produção gráfica. Depois segui como freelancer em redes sociais, identidade visual e publicidade. No motion encontrei meu lugar: hoje transformo ideias em animação.</p>
+      <h3 data-rv>Trajetória</h3>
+      <ul class="path" data-rv>
+        <li><b>Aos 16</b><span>Designer finalista numa gráfica</span></li>
+        <li><b>Depois</b><span>Freelancer: redes sociais, identidade visual e publicidade</span></li>
+        <li><b>Hoje</b><span>Motion designer e designer gráfico</span></li>
+      </ul>
+    </div>
+    <div class="side">
+      <div data-rv>
+        <h3>Ferramentas</h3>
+        <ul class="tools" aria-label="Ferramentas">
+          <li class="tool t-ae" title="After Effects">Ae</li>
+          <li class="tool t-pr" title="Premiere Pro">Pr</li>
+          <li class="tool t-ai" title="Illustrator">Ai</li>
+          <li class="tool t-ps" title="Photoshop">Ps</li>
+          <li class="tool t-fg" title="Figma">Fg</li>
+          <li class="tool t-c4" title="Cinema 4D">C4</li>
+        </ul>
+      </div>
+      <div data-rv>
+        <h3>Faço</h3>
+        <ul class="now">
+          <li><b>Motion design</b>vinhetas, reels, logos animados</li>
+          <li><b>Design gráfico</b>identidade visual e peças para redes</li>
+          <li><b>Audiovisual</b>edição e conteúdos para campanhas</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Motion design e design gráfico">
+    <svg class="torn t" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true"><path data-torn="7"/></svg>
+    <div class="rows" aria-hidden="true">
+      <p class="row wide" data-dir="-1"><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span></p>
+      <p class="row wide o" data-dir="1"><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span></p>
+    </div>
+    <figure class="sticker" id="sticker"><img src="../assets/photos/joalyson-sticker-hq.webp" alt="Joalyson recortado como um adesivo com contorno vermelho" width="741" height="1072" loading="lazy"></figure>
+    <p class="band-cap hand" aria-hidden="true">arrasta o adesivo</p>
+    <svg class="torn b" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true"><path data-torn="13"/></svg>
+  </section>
+
+  <section class="work wrap" id="trabalhos" aria-labelledby="t-work">
+    <div class="work-head">
+      <h2 class="h2 wide" id="t-work" data-rv>Trabalhos</h2>
+      <p data-rv>Seis peças coladas no caderno: vinhetas, reels, pôster animado e logo. Passe o mouse para endireitar.</p>
+    </div>
+    <div class="prints">
+      <figure class="print" style="--r:-3deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/vila.jpg" data-v aria-label="Vídeo da Vila Cor: faixas de cor revelam uma rua do Pelourinho"><source src="../assets/motion/vila.mp4" type="video/mp4"></video><figcaption><b>Vila Cor</b><span>vídeo para redes · 16:9</span></figcaption></figure>
+      <figure class="print" style="--r:2deg;--tr:5deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/mare.jpg" data-v aria-label="Reels da Maré Café: um círculo abre sobre o café e o nome sobe"><source src="../assets/motion/mare.mp4" type="video/mp4"></video><figcaption><b>Maré Café</b><span>reels · 4:5</span></figcaption></figure>
+      <figure class="print" style="--r:-1.5deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/selo.jpg" data-v aria-label="Vinheta do Selo Norte: um disco gira e o nome corre"><source src="../assets/motion/selo.mp4" type="video/mp4"></video><figcaption><b>Selo Norte</b><span>vinheta · 16:9</span></figcaption></figure>
+      <figure class="print" style="--r:2.5deg;--tr:-6deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/pulso.jpg" data-v aria-label="Pôster animado do Festival Pulso pulsando no ritmo da música"><source src="../assets/motion/pulso.mp4" type="video/mp4"></video><figcaption><b>Festival Pulso</b><span>pôster animado · 4:5</span></figcaption></figure>
+      <figure class="print" style="--r:-2deg;--tr:3deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/ponto.jpg" data-v aria-label="Vídeo da Ponto Foto: um obturador abre sobre a câmera"><source src="../assets/motion/ponto.mp4" type="video/mp4"></video><figcaption><b>Ponto Foto</b><span>explicativo · 16:9</span></figcaption></figure>
+      <figure class="print" style="--r:1.5deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/brisa.jpg" data-v aria-label="Animação de logo da Brisa: linhas de vento passam e o nome se assenta"><source src="../assets/motion/brisa.mp4" type="video/mp4"></video><figcaption><b>Brisa</b><span>logo animado · 16:9</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="serv wrap" id="servicos" aria-labelledby="t-serv">
+    <h2 class="h2 wide" id="t-serv" data-rv>Serviços</h2>
+    <ul class="slist">
+      <li class="grp hand" data-rv>motion</li>
+      <li data-rv><span class="n">Motion para redes</span><span class="d">Reels e Stories, até 30 segundos</span><span class="t">5 dias<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="20" rx="48" ry="17" pathLength="1"/></svg></span></li>
+      <li data-rv><span class="n">Logo animado</span><span class="d">5 a 10 segundos, com som</span><span class="t">1 semana<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="20" rx="48" ry="17" pathLength="1"/></svg></span></li>
+      <li data-rv><span class="n">Vinheta e abertura</span><span class="d">15 a 30 segundos</span><span class="t">2 semanas<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="20" rx="48" ry="17" pathLength="1"/></svg></span></li>
+      <li data-rv><span class="n">Vídeo explicativo</span><span class="d">roteiro e animação, até 90 segundos</span><span class="t">3–4 semanas<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="20" rx="48" ry="17" pathLength="1"/></svg></span></li>
+      <li class="grp hand" data-rv>design gráfico</li>
+      <li data-rv><span class="n">Identidade visual</span><span class="d">logo, cores, tipografia e manual</span><span class="t">3 semanas<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="20" rx="48" ry="17" pathLength="1"/></svg></span></li>
+      <li data-rv><span class="n">Peças para redes</span><span class="d">pacote mensal de posts e stories</span><span class="t">mensal<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="20" rx="48" ry="17" pathLength="1"/></svg></span></li>
+    </ul>
+  </section>
+
+  <section class="contact wrap" id="contato" aria-labelledby="t-contact">
+    <div class="notecard" data-rv>
+      <span class="tape" aria-hidden="true"></span>
+      <p class="ps hand" aria-hidden="true">respondo em 1 dia útil!</p>
+      <h2 class="wide" id="t-contact">Vamos animar?</h2>
+      <a class="mail" href="mailto:contato@jbdesigner.com.br?subject=Projeto%20de%20motion">contato@jbdesigner.com.br</a>
+      <div class="row">
+        <a class="btn" href="mailto:contato@jbdesigner.com.br?subject=Projeto%20de%20motion">Escrever e-mail</a>
+        <ul><li><a class="link" href="https://br.pinterest.com/jbdesignerofc/">Pinterest</a></li><li><a class="link" href="#">Instagram</a></li><li><a class="link" href="#">Behance</a></li></ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <svg class="torn" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true"><path data-torn="21"/></svg>
+  <div class="legal wrap">
+    <p>© 2026 Joalyson · Peças de exemplo · Fotos de apoio nos vídeos: Unsplash via Picsum.</p>
+    <p><a class="link" href="../">Ver todas as opções</a> · <a class="link" href="#topo">Voltar ao topo</a></p>
+  </div>
+  <p class="big wide" aria-hidden="true">Joalyson</p>
+</footer>
+
+<script>
+/* Portuguese is the page's own text; English replaces it node by node and returns it on the way back */
+const EN = {
+  'Joalyson — Caderno de motion':'Joalyson — Motion notebook',
+  'Joalyson, designer gráfico e motion designer. Animações que comunicam, envolvem e geram impacto.':'Joalyson, graphic and motion designer. Animations that communicate, engage and make an impact.',
+  'Idioma':'Language','Principal':'Main','Sobre':'About','Trabalhos':'Work','Serviços':'Services','Bora':"Let's",'conversar':'talk',
+  'Joalyson, motion designer e designer gráfico':'Joalyson, motion designer and graphic designer',
+  'esse sou eu':"that's me",
+  'Designer gráfico e motion designer. Transformo ideias em animações que comunicam, envolvem e geram impacto.':'Graphic and motion designer. I turn ideas into animations that communicate, engage and make an impact.',
+  'Ver trabalhos':'See my work','Portfólio 2026 · Brasil':'Portfolio 2026 · Brazil',
+  'Joalyson, de camiseta preta e braços cruzados, sorrindo':'Joalyson in a black T-shirt, arms crossed, smiling',
+  'Redimensionar a foto':'Resize the photo','puxa o canto ↘':'drag the corner ↘',
+  'Olá':'Hello','Sou Joalyson, 22 anos.':"I'm Joalyson, 22.",
+  'Designer gráfico e motion designer, criando desde os 16.':'Graphic and motion designer, creating since I was 16.',
+  'Comecei como finalista numa gráfica, onde aprendi composição e produção gráfica. Depois segui como freelancer em redes sociais, identidade visual e publicidade. No motion encontrei meu lugar: hoje transformo ideias em animação.':'I started as a prepress designer at a print shop, where I learned composition and print production. Then I went freelance in social media, visual identity and advertising. Motion is where I found my place: today I turn ideas into animation.',
+  'Trajetória':'Path','Aos 16':'At 16','Designer finalista numa gráfica':'Prepress designer at a print shop',
+  'Depois':'Then','Freelancer: redes sociais, identidade visual e publicidade':'Freelance: social media, visual identity and advertising',
+  'Hoje':'Today','Motion designer e designer gráfico':'Motion and graphic designer',
+  'Ferramentas':'Tools','Faço':'I do','vinhetas, reels, logos animados':'idents, reels, animated logos',
+  'Design gráfico':'Graphic design','identidade visual e peças para redes':'visual identity and social media pieces',
+  'edição e conteúdos para campanhas':'editing and campaign content',
+  'Motion design e design gráfico':'Motion design and graphic design',
+  'Joalyson recortado como um adesivo com contorno vermelho':'Joalyson cut out as a sticker with a red outline',
+  'arrasta o adesivo':'drag the sticker',
+  'Seis peças coladas no caderno: vinhetas, reels, pôster animado e logo. Passe o mouse para endireitar.':'Six pieces taped into the notebook: idents, reels, an animated poster and a logo. Hover to straighten them.',
+  'Vídeo da Vila Cor: faixas de cor revelam uma rua do Pelourinho':'Vila Cor video: color stripes reveal a street in Pelourinho',
+  'Reels da Maré Café: um círculo abre sobre o café e o nome sobe':'Maré Café reel: a circle opens over the coffee and the name rises',
+  'Vinheta do Selo Norte: um disco gira e o nome corre':'Selo Norte ident: a record spins and the name runs',
+  'Pôster animado do Festival Pulso pulsando no ritmo da música':'Festival Pulso animated poster pulsing to the music',
+  'Vídeo da Ponto Foto: um obturador abre sobre a câmera':'Ponto Foto video: a shutter opens over the camera',
+  'Animação de logo da Brisa: linhas de vento passam e o nome se assenta':'Brisa logo animation: wind lines pass and the name settles',
+  'vídeo para redes · 16:9':'social video · 16:9','vinheta · 16:9':'ident · 16:9','pôster animado · 4:5':'animated poster · 4:5',
+  'explicativo · 16:9':'explainer · 16:9','logo animado · 16:9':'animated logo · 16:9',
+  'Motion para redes':'Social media motion','Reels e Stories, até 30 segundos':'Reels and Stories, up to 30 seconds','5 dias':'5 days',
+  'Logo animado':'Animated logo','5 a 10 segundos, com som':'5 to 10 seconds, with sound','1 semana':'1 week',
+  'Vinheta e abertura':'Idents and openers','15 a 30 segundos':'15 to 30 seconds','2 semanas':'2 weeks',
+  'Vídeo explicativo':'Explainer video','roteiro e animação, até 90 segundos':'script and animation, up to 90 seconds','3–4 semanas':'3–4 weeks',
+  'design gráfico':'graphic design','Identidade visual':'Visual identity','logo, cores, tipografia e manual':'logo, colors, type and guidelines','3 semanas':'3 weeks',
+  'Peças para redes':'Social media pieces','pacote mensal de posts e stories':'monthly pack of posts and stories','mensal':'monthly',
+  'respondo em 1 dia útil!':'I reply within 1 business day!','Vamos animar?':'Shall we animate?','Escrever e-mail':'Send an email',
+  '© 2026 Joalyson · Peças de exemplo · Fotos de apoio nos vídeos: Unsplash via Picsum.':'© 2026 Joalyson · Sample pieces · Support photos in the videos: Unsplash via Picsum.',
+  'Ver todas as opções':'See all options','Voltar ao topo':'Back to top'
+};
+const I18n = (function(){
+  const ATTRS = ['alt','aria-label','title'];
+  const nodes = [], els = [];
+  const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement.closest('script,style,svg') ? NodeFilter.FILTER_REJECT : (EN[n.nodeValue.trim()] ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP) });
+  while (walk.nextNode()) nodes.push({ n: walk.currentNode, pt: walk.currentNode.nodeValue });
+  document.querySelectorAll(ATTRS.map(a => `[${a}]`).join(',')).forEach(el => ATTRS.forEach(a => { const v = el.getAttribute(a); if (v && EN[v]) els.push({ el, a, pt: v }); }));
+  const meta = document.querySelector('meta[name="description"]'), metaPt = meta.content, titlePt = document.title;
+  const mails = [...document.querySelectorAll('a[href^="mailto:"]')].map(a => ({ a, pt: a.getAttribute('href') }));
+  let cur = 'pt';
+  function set(l){
+    cur = l;
+    const en = l === 'en';
+    nodes.forEach(({ n, pt }) => { const k = pt.trim(); n.nodeValue = en ? pt.replace(k, EN[k]) : pt; });
+    els.forEach(({ el, a, pt }) => el.setAttribute(a, en ? EN[pt] : pt));
+    document.documentElement.lang = en ? 'en' : 'pt-BR';
+    document.title = en ? EN[titlePt] : titlePt; meta.content = en ? EN[metaPt] : metaPt;
+    mails.forEach(({ a, pt }) => a.setAttribute('href', en ? pt.replace('Projeto%20de%20motion', 'Motion%20project') : pt));
+    try { localStorage.setItem('jb-lang', l); } catch (e) {}
+    document.dispatchEvent(new CustomEvent('langchange', { detail:l }));
+  }
+  return { set, get: () => cur };
+})();
+
+/* the toggle: the red loop is redrawn around whichever language is active */
+(function(){
+  const box = document.getElementById('lang'), loop = document.getElementById('loop'), path = loop.querySelector('path');
+  const btns = [...box.querySelectorAll('button')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function moveLoop(l, draw){
+    const b = btns.find(x => x.dataset.l === l), r = b.getBoundingClientRect(), br = box.getBoundingClientRect();
+    loop.style.width = (r.width + 14) + 'px'; loop.style.height = (r.height + 4) + 'px';
+    loop.style.transform = `translate(${r.left - br.left - 7}px, ${r.top - br.top - 2}px) rotate(${l === 'en' ? 4 : -3}deg)`;
+    if (draw && window.gsap && !reduce) gsap.fromTo(path, { strokeDasharray:1, strokeDashoffset:1 }, { strokeDashoffset:0, duration:.6, ease:'power2.inOut', delay:.1 });
+  }
+  function choose(l, draw){
+    btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === l));
+    if (l !== I18n.get()) I18n.set(l);
+    moveLoop(l, draw);
+    if (draw && window.gsap && !reduce) gsap.fromTo('main h2, .hero-foot p, .hello p, .note span, .work-head p, .slist .n, .notecard .ps', { y:8, opacity:0, rotation:() => gsap.utils.random(-2, 2) }, { y:0, opacity:1, rotation:0, duration:.5, ease:'back.out(2)', stagger:.015, overwrite:'auto' });
+  }
+  btns.forEach(b => b.addEventListener('click', () => choose(b.dataset.l, true)));
+  let start = 'pt';
+  const q = new URLSearchParams(location.search).get('lang');
+  try { start = q === 'en' || q === 'pt' ? q : (localStorage.getItem('jb-lang') || (navigator.language.startsWith('pt') ? 'pt' : 'pt')); } catch (e) {}
+  choose(start === 'en' ? 'en' : 'pt', false);
+  document.fonts && document.fonts.ready.then(() => moveLoop(I18n.get(), false));
+  addEventListener('resize', () => moveLoop(I18n.get(), false));
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* torn paper edges, drawn once from a seed */
+document.querySelectorAll('[data-torn]').forEach(p => {
+  let s = +p.dataset.torn; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  let d = 'M0 36 L0 ' + (14 + rnd()*10).toFixed(1);
+  for (let x = 0; x <= 1000; x += 8 + rnd()*14) d += ` L${x.toFixed(1)} ${(4 + rnd()*26).toFixed(1)}`;
+  p.setAttribute('d', d + ' L1000 18 L1000 36 Z');
+});
+
+/* fit the name to the width */
+(function(){
+  const h = document.querySelector('.name'), inner = h.querySelector('.in'), big = document.querySelector('.foot .big');
+  function fit(el, inn){ el.style.fontSize = '100px'; const w = el.clientWidth; el.style.fontSize = Math.floor(100 * w / inn.getBoundingClientRect().width * 10) / 10 + 'px'; }
+  function place(){
+    fit(h, inner);
+    const f = h.querySelector('.face'), n = document.getElementById('note');
+    n.style.left = (f.offsetLeft + f.offsetWidth * .5) + 'px'; n.style.top = (f.offsetTop + f.offsetHeight + 8) + 'px';
+  }
+  const fitBig = () => { big.style.fontSize = '100px'; const s = document.createElement('span'); s.textContent = big.textContent; s.style.display = 'inline-block'; big.textContent = ''; big.appendChild(s); big.style.fontSize = Math.floor(100 * big.clientWidth / s.getBoundingClientRect().width * .96) + 'px'; };
+  document.fonts.ready.then(() => { place(); fitBig(); }); place(); addEventListener('resize', place);
+})();
+
+/* live thing: the selection frame resizes like in a design tool */
+(function(){
+  const sel = document.getElementById('sel'), grip = document.getElementById('grip'), dim = document.getElementById('dim');
+  let start = null, w0 = 0, k = 1;
+  const base = () => sel.parentElement.clientWidth * .86;
+  function set(v){ k = Math.max(.6, Math.min(1, v)); sel.style.width = (k * 86) + '%'; dim.textContent = Math.round(661 * k) + ' × ' + Math.round(992 * k); grip.setAttribute('aria-valuenow', Math.round(k * 100)); }
+  grip.addEventListener('pointerdown', e => { start = e.clientX; w0 = sel.offsetWidth; grip.setPointerCapture(e.pointerId); e.preventDefault(); });
+  grip.addEventListener('pointermove', e => { if (start === null) return; set((w0 + (e.clientX - start) * 2) / base()); });
+  grip.addEventListener('pointerup', () => start = null);
+  grip.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') set(k - .05); if (e.key === 'ArrowRight' || e.key === 'ArrowUp') set(k + .05); });
+})();
+
+(function(){
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids = document.querySelectorAll('video[data-v]');
+  if (!reduce){ const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), { rootMargin:'80px' }); vids.forEach(v => io.observe(v)); }
+  if (!window.gsap || reduce){ root.classList.remove('js'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  const lenis = new Lenis({ lerp:.1 });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (!t) return; e.preventDefault(); lenis.scrollTo(t, { duration:1.4, offset:-20 }); }));
+  const nav = document.getElementById('nav'); let last = 0;
+  lenis.on('scroll', ({ scroll }) => { nav.classList.toggle('hide', scroll > last && scroll > 300); last = scroll; });
+
+  /* hero: letters drop onto the page, the stamp spins in, the note is drawn */
+  const arrow = document.querySelector('.note path'), L = arrow.getTotalLength();
+  gsap.set(arrow, { strokeDasharray:L, strokeDashoffset:L });
+  gsap.timeline({ delay:.15 })
+    .from('.name .ch:not(.face)', { yPercent:-140, rotation:() => gsap.utils.random(-25, 25), opacity:0, duration:1, ease:'bounce.out', stagger:.06 }, 0)
+    .from('.name .face', { scale:0, rotation:-200, duration:1.2, ease:'back.out(1.8)' }, .35)
+    .from('.stars svg', { scale:0, rotation:-90, duration:.7, ease:'back.out(3)', stagger:.08 }, .9)
+    .to(arrow, { strokeDashoffset:0, duration:.7, ease:'power2.inOut' }, 1.2)
+    .from('.note span', { opacity:0, x:-10, duration:.5 }, 1.6)
+    .fromTo('[data-hero]', { opacity:0, y:20 }, { opacity:1, y:0, duration:.8, ease:'expo.out', stagger:.08 }, 1);
+  gsap.to('.stars svg', { rotation:360, duration:14, ease:'none', repeat:-1, stagger:{ each:.5 } });
+  gsap.to('.name .face img', { rotation:8, duration:2.4, yoyo:true, repeat:-1, ease:'sine.inOut' });
+
+  /* band: two rows of words run in opposite directions with the scroll; the sticker lifts */
+  gsap.utils.toArray('.band .row').forEach(r => {
+    const dir = +r.dataset.dir;
+    gsap.fromTo(r, { xPercent: dir < 0 ? 0 : -25 }, { xPercent: dir < 0 ? -25 : 0, ease:'none', scrollTrigger:{ trigger:'.band', start:'top bottom', end:'bottom top', scrub:true } });
+  });
+  gsap.fromTo('#sticker', { yPercent:18, rotation:-4 }, { yPercent:0, rotation:2, ease:'none', scrollTrigger:{ trigger:'.band', start:'top bottom', end:'center center', scrub:true } });
+
+  /* the sticker can be dragged and springs back */
+  const st = document.getElementById('sticker'); let sx, sy, drag = false;
+  st.addEventListener('pointerdown', e => { drag = true; sx = e.clientX; sy = e.clientY; st.setPointerCapture(e.pointerId); st.style.cursor = 'grabbing'; gsap.to(st.firstElementChild, { scale:1.05, rotation:-3, duration:.3 }); });
+  st.addEventListener('pointermove', e => { if (!drag) return; gsap.set(st.firstElementChild, { x:e.clientX - sx, y:e.clientY - sy }); });
+  st.addEventListener('pointerup', () => { drag = false; st.style.cursor = ''; gsap.to(st.firstElementChild, { x:0, y:0, scale:1, rotation:0, duration:1.2, ease:'elastic.out(1,.45)' }); });
+
+  /* prints drop in, each from its own angle */
+  gsap.utils.toArray('.print').forEach((p, i) => {
+    gsap.from(p, { y:-90, opacity:0, rotation:(i % 2 ? 14 : -14), duration:1, ease:'back.out(1.6)', scrollTrigger:{ trigger:p, start:'top 88%', once:true } });
+    gsap.from(p.querySelector('.tape'), { scaleX:0, duration:.5, ease:'power2.out', delay:.5, scrollTrigger:{ trigger:p, start:'top 88%', once:true } });
+  });
+
+  /* services: each time is circled by hand as it enters */
+  gsap.utils.toArray('.slist ellipse').forEach(e => {
+    gsap.set(e, { strokeDasharray:1, strokeDashoffset:1 });
+    gsap.to(e, { strokeDashoffset:0, duration:.9, ease:'power2.inOut', scrollTrigger:{ trigger:e.closest('li'), start:'top 80%', once:true } });
+  });
+
+  /* contact note swings into place */
+  gsap.from('.notecard', { rotation:6, y:60, duration:1.2, ease:'elastic.out(1,.6)', scrollTrigger:{ trigger:'.contact', start:'top 70%', once:true } });
+
+  ScrollTrigger.batch('[data-rv]', { start:'top 90%', once:true, interval:.08,
+    onEnter: b => gsap.to(b, { opacity:1, y:0, duration:.9, ease:'expo.out', stagger:.07, overwrite:true }) });
+  gsap.from('.foot .big', { yPercent:50, ease:'none', scrollTrigger:{ trigger:'.foot', start:'top bottom', end:'bottom bottom', scrub:true } });
+})();
+</script>
+</body>
+</html>
