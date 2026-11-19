@@ -112,7 +112,7 @@ ul,ol{list-style:none;padding:0}
 .band .row.o{color:transparent;-webkit-text-stroke:2px var(--paper)}
 .band .gl{display:inline-block;width:.62em;height:.62em;vertical-align:.04em;fill:var(--paper)}
 .band .row.o .gl{fill:var(--red)}
-.sticker{position:absolute;left:50%;bottom:0;width:min(34vw,46svh,460px);transform:translateX(-50%);z-index:3;cursor:grab;touch-action:none}
+.sticker{position:absolute;left:50%;bottom:0;width:min(30vw,42svh,420px);transform:translateX(-50%);z-index:3;cursor:grab;touch-action:none}
 .sticker img{width:100%;height:auto;pointer-events:none;user-select:none}
 .band-cap{position:absolute;right:calc(var(--m) + 10px);bottom:24px;z-index:4;color:var(--paper);font-size:clamp(24px,2.2vw,32px);transform:rotate(-4deg)}
 
@@ -120,16 +120,69 @@ ul,ol{list-style:none;padding:0}
 .work{padding-top:clamp(120px,14vw,220px)}
 .work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,72px)}
 .work-head p{max-width:34ch}
-.prints{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(32px,4vw,64px) clamp(24px,3vw,48px);align-items:start}
-.print{position:relative;background:var(--white);padding:12px 12px 0;transform:rotate(var(--r));transition:transform .5s var(--ease);will-change:transform}
-.print:hover{transform:rotate(0deg) scale(1.03);z-index:5}
-.print video{width:100%;height:auto;background:var(--ink)}
-.print figcaption{padding:12px 4px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.print figcaption b{font-family:var(--hand);font-size:30px;font-weight:600;line-height:1}
-.print figcaption span{font-size:15px;color:var(--muted)}
-.tape{position:absolute;top:-16px;left:50%;width:110px;height:30px;background:rgba(212,42,37,.5);transform:translateX(-50%) rotate(var(--tr,-4deg))}
-.print:nth-child(3n+2){margin-top:64px}
-.print:nth-child(3n+3){margin-top:24px}
+.tabs{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:clamp(24px,3vw,40px)}
+.tab{position:relative;background:var(--white);border:0;cursor:pointer;font-size:clamp(26px,2.4vw,32px);padding:12px 22px 10px;min-height:52px;color:var(--ink);transform:rotate(var(--tr,-2deg));transition:rotate .4s var(--ease),translate .4s var(--ease),background-color .25s,color .25s}
+.tab:nth-child(2){--tr:1.5deg}.tab:nth-child(3){--tr:-1deg}
+.tab::before{content:"";position:absolute;left:50%;top:-10px;width:56px;height:18px;background:rgba(20,20,20,.18);translate:-50% 0;rotate:3deg}
+.tab:hover{translate:0 -3px;rotate:2deg}
+.tab[aria-pressed="true"]{background:var(--red);color:var(--white)}
+.fly{position:relative}
+.fstage{position:relative}
+.print{position:relative;background:var(--white);padding:10px 10px 0;margin:0}
+.print .open{position:relative;display:block;width:100%;padding:0;border:0;background:var(--ink);cursor:zoom-in}
+.print img,.print .pv{display:block;width:100%;height:auto}
+.print .pv{position:absolute;inset:0;height:100%;object-fit:cover}
+.print .play{position:absolute;right:10px;bottom:10px;width:46px;height:46px;border-radius:50%;background:var(--red);display:grid;place-items:center;transition:scale .35s var(--ease)}
+.print .play::before{content:"";border-left:13px solid var(--white);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
+.print .open:hover .play,.print .open:focus-visible .play{scale:1.15}
+.print figcaption{padding:10px 4px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.print figcaption b{font-family:var(--hand);font-size:clamp(24px,2vw,30px);font-weight:600;line-height:1}
+.print figcaption span{font-size:14px;color:var(--muted);text-align:right}
+.tape{position:absolute;top:-16px;left:50%;width:110px;height:30px;background:rgba(212,42,37,.5);transform:translateX(-50%) rotate(var(--tr,-4deg));z-index:2}
+.print[hidden]{display:none}
+/* static notebook (no script or reduced motion): a taped grid */
+.fly:not(.on) .world{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:48px 28px;padding:24px var(--m) 0;align-items:start}
+.fly:not(.on) .print{transform:rotate(var(--r))}
+.fly:not(.on) .print.h,.fly:not(.on) .print.b{grid-column:span 2}
+.fly:not(.on) .fcap{display:none}
+/* flight: the prints come at you through the page */
+.fly.on{height:calc(100svh + (var(--n,5) - 1) * 64svh)}
+.fly.on .fstage{position:sticky;top:0;height:100svh;overflow:hidden;perspective:900px}
+.fly.on .world{position:absolute;inset:0;transform-style:preserve-3d}
+.fly.on .print{position:absolute;left:50%;top:50%;will-change:transform,opacity}
+.fly.on .print.v{width:min(22vw,38svh)}
+.fly.on .print.h{width:min(46vw,74svh)}
+.fly.on .print.b{width:min(64vw,100svh)}
+.next{display:none}
+.fly.on .next{display:block;position:absolute;left:50%;top:50%;width:min(30vw,420px);background:var(--red);color:var(--white);border:0;padding:36px 30px 30px;text-align:left;cursor:pointer;will-change:transform,opacity}
+.next .tape{background:rgba(20,20,20,.25)}
+.next b{display:block;font-weight:600;font-size:18px;line-height:1.2}
+.next span{display:block;margin-top:12px;font-stretch:125%;font-weight:900;text-transform:uppercase;font-size:clamp(32px,3.4vw,52px);letter-spacing:-.02em;line-height:.9}
+.next:hover span{text-decoration:underline;text-decoration-thickness:3px}
+.bgword{display:none}
+.fly.on .bgword{display:block;position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--hand);font-weight:600;font-size:clamp(120px,21vw,340px);line-height:.9;color:var(--red);opacity:.16;white-space:nowrap;pointer-events:none;z-index:0}
+.fcap{position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;z-index:5;pointer-events:none}
+.fcap .now{background:var(--paper);padding:10px 16px 12px;transform:rotate(-1.5deg)}
+.fcap .now b{display:block;font-size:clamp(30px,2.8vw,42px);line-height:1}
+.fcap .now span{font-size:15px;color:var(--muted)}
+.meter{display:flex;align-items:center;gap:14px;background:var(--paper);padding:8px 14px}
+.meter .pen{width:min(26vw,240px);height:22px;overflow:visible}
+.meter path{fill:none;stroke-width:3;stroke-linecap:round}
+.meter .pen-bg{stroke:#cfcec7}.meter .pen-fg{stroke:var(--red);stroke-dasharray:1;stroke-dashoffset:1}
+.meter span{font-size:28px;white-space:nowrap}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(20,20,20,.9);display:grid;place-items:center;padding:clamp(16px,3vw,40px)}
+.lb[hidden]{display:none}
+.lb-sheet{position:relative;background:var(--white);padding:14px 14px 12px;transform:rotate(-1deg);max-width:min(94vw,1180px)}
+.lb-sheet .tape{top:-14px;width:130px}
+.lb-media video{display:block;max-width:100%;max-height:72svh;width:auto;height:auto;background:var(--ink);margin:0 auto}
+.lb-cap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:12px 4px 4px}
+.lb-cap b{font-size:clamp(30px,3vw,44px)}
+.lb-cap span{color:var(--muted);font-size:15px}
+.lb-nav{display:flex;align-items:center;gap:10px;padding:6px 4px 2px;flex-wrap:wrap}
+.lb-b{background:none;border:0;font-size:28px;cursor:pointer;min-height:44px;padding:0 10px;color:var(--ink)}
+.lb-b:hover{color:var(--red)}
+.lb-nav .btn{margin-left:auto}
 
 /* services: list with circled times */
 .serv{padding-top:clamp(120px,14vw,220px)}
@@ -151,7 +204,11 @@ ul,ol{list-style:none;padding:0}
 .notecard .mail{display:inline-block;font-stretch:110%;font-weight:800;font-size:clamp(24px,3.8vw,56px);letter-spacing:-.02em;text-decoration:none;word-break:break-word;transition:color .2s}
 .notecard .mail:hover{color:var(--red)}
 .notecard .row{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-top:36px}
-.notecard .row ul{display:flex;gap:20px;font-weight:600}
+.notecard .acts{display:flex;gap:12px;flex-wrap:wrap}
+.btn.wa{background:var(--red)}
+.btn.wa:hover{background:var(--ink)}
+.notecard .reach{display:grid;gap:6px;font-weight:600}
+.notecard .reach span{font-weight:400;color:var(--muted);margin-left:6px}
 .notecard .ps{position:absolute;right:clamp(24px,4vw,56px);top:-40px;font-size:clamp(26px,2.4vw,34px);color:var(--red);transform:rotate(6deg)}
 
 /* footer */
@@ -166,8 +223,6 @@ ul,ol{list-style:none;padding:0}
 @media (max-width:900px){
   .about{grid-template-columns:1fr 1fr}
   .sel-col{grid-column:1/2}.hello{grid-column:2/3}.side{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
-  .prints{grid-template-columns:1fr 1fr}
-  .print:nth-child(n){margin-top:0}.print:nth-child(2n){margin-top:48px}
 }
 @media (max-width:600px){
   .nav ul li:not(:last-child){display:none}
@@ -186,10 +241,15 @@ ul,ol{list-style:none;padding:0}
   .side{grid-template-columns:1fr}
   .sel{width:78%}
   .band{height:62svh}
-  .sticker{width:min(72vw,52svh)}
+  .sticker{width:min(62vw,46svh)}
   .band-cap{bottom:14px}
-  .prints{grid-template-columns:1fr}
-  .print:nth-child(n){margin-top:0}
+  .fly.on .print.v{width:58vw}
+  .fly.on .next{width:72vw}
+  .fly.on .print.h{width:82vw}
+  .fly.on .print.b{width:90vw}
+  .fcap{flex-direction:column;align-items:flex-start;gap:10px;bottom:16px}
+  .meter .pen{width:46vw}
+  .tab{font-size:24px;padding:10px 16px 8px}
   .slist li{grid-template-columns:1fr auto;gap:8px 16px}
   .slist .d{grid-column:1/3;grid-row:2;font-size:16px}
   .notecard .ps{top:-34px}
@@ -294,23 +354,112 @@ ul,ol{list-style:none;padding:0}
       <p class="row wide" data-dir="-1"><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Motion design <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span></p>
       <p class="row wide o" data-dir="1"><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span><span>Design gráfico <svg class="gl" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 14 L36 6 L27 18 L40 20 L27 22 L36 34 L23 26 L20 40 L17 26 L4 34 L13 22 L0 20 L13 18 L4 6 L17 14 Z"/></svg></span></p>
     </div>
-    <figure class="sticker" id="sticker"><img src="../assets/photos/joalyson-sticker-hq.webp" alt="Joalyson recortado como um adesivo com contorno vermelho" width="741" height="1072" loading="lazy"></figure>
+    <figure class="sticker" id="sticker"><img src="../assets/photos/joalyson-sticker-laptop.webp" alt="Joalyson segurando um notebook, recortado como um adesivo com contorno vermelho" width="781" height="1322" loading="lazy"></figure>
     <p class="band-cap hand" aria-hidden="true">arrasta o adesivo</p>
     <svg class="torn b" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true"><path data-torn="13"/></svg>
   </section>
 
-  <section class="work wrap" id="trabalhos" aria-labelledby="t-work">
-    <div class="work-head">
+  <section class="work" id="trabalhos" aria-labelledby="t-work">
+    <div class="work-head wrap">
       <h2 class="h2 wide" id="t-work" data-rv>Trabalhos</h2>
-      <p data-rv>Seis peças coladas no caderno: vinhetas, reels, pôster animado e logo. Passe o mouse para endireitar.</p>
+      <p data-rv>Peças reais de campanhas, eventos e marcas. Role para atravessar o caderno e clique numa peça para ver com som.</p>
     </div>
-    <div class="prints">
-      <figure class="print" style="--r:-3deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/vila.jpg" data-v aria-label="Vídeo da Vila Cor: faixas de cor revelam uma rua do Pelourinho"><source src="../assets/motion/vila.mp4" type="video/mp4"></video><figcaption><b>Vila Cor</b><span>vídeo para redes · 16:9</span></figcaption></figure>
-      <figure class="print" style="--r:2deg;--tr:5deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/mare.jpg" data-v aria-label="Reels da Maré Café: um círculo abre sobre o café e o nome sobe"><source src="../assets/motion/mare.mp4" type="video/mp4"></video><figcaption><b>Maré Café</b><span>reels · 4:5</span></figcaption></figure>
-      <figure class="print" style="--r:-1.5deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/selo.jpg" data-v aria-label="Vinheta do Selo Norte: um disco gira e o nome corre"><source src="../assets/motion/selo.mp4" type="video/mp4"></video><figcaption><b>Selo Norte</b><span>vinheta · 16:9</span></figcaption></figure>
-      <figure class="print" style="--r:2.5deg;--tr:-6deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/pulso.jpg" data-v aria-label="Pôster animado do Festival Pulso pulsando no ritmo da música"><source src="../assets/motion/pulso.mp4" type="video/mp4"></video><figcaption><b>Festival Pulso</b><span>pôster animado · 4:5</span></figcaption></figure>
-      <figure class="print" style="--r:-2deg;--tr:3deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/ponto.jpg" data-v aria-label="Vídeo da Ponto Foto: um obturador abre sobre a câmera"><source src="../assets/motion/ponto.mp4" type="video/mp4"></video><figcaption><b>Ponto Foto</b><span>explicativo · 16:9</span></figcaption></figure>
-      <figure class="print" style="--r:1.5deg"><span class="tape" aria-hidden="true"></span><video muted loop playsinline preload="metadata" poster="../assets/motion/brisa.jpg" data-v aria-label="Animação de logo da Brisa: linhas de vento passam e o nome se assenta"><source src="../assets/motion/brisa.mp4" type="video/mp4"></video><figcaption><b>Brisa</b><span>logo animado · 16:9</span></figcaption></figure>
+    <div class="tabs wrap" role="group" aria-label="Categorias" data-rv>
+      <button class="tab hand" type="button" data-set="campanhas" aria-pressed="true">campanhas</button>
+      <button class="tab hand" type="button" data-set="eventos" aria-pressed="false">eventos</button>
+      <button class="tab hand" type="button" data-set="logos" aria-pressed="false">logos e formatos</button>
+    </div>
+    <div class="fly" id="fly">
+      <div class="fstage">
+        <p class="bgword" id="bgword" aria-hidden="true">campanhas</p>
+        <div class="world" id="world">
+        <figure class="print v" data-set="campanhas" data-prev="../assets/works/feirao-piso-p.mp4" data-full="../assets/works/feirao-piso.mp4" style="--r:-3deg;--tr:-4deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Mega Feirão de Piso"><img src="../assets/works/feirao-piso.jpg" alt="Quadro de Mega Feirão de Piso" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Mega Feirão de Piso</b><span>anúncio de varejo · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="campanhas" data-prev="../assets/works/comicio-time-p.mp4" data-full="../assets/works/comicio-time.mp4" style="--r:2.5deg;--tr:5deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Comício do Time"><img src="../assets/works/comicio-time.jpg" alt="Quadro de Comício do Time" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Comício do Time</b><span>campanha política · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="campanhas" data-prev="../assets/works/juntos-13-p.mp4" data-full="../assets/works/juntos-13.mp4" style="--r:-1.5deg;--tr:-6deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Juntos pelo Trabalho"><img src="../assets/works/juntos-13.jpg" alt="Quadro de Juntos pelo Trabalho" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Juntos pelo Trabalho</b><span>campanha política · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="campanhas" data-prev="../assets/works/sao-joao-p.mp4" data-full="../assets/works/sao-joao.mp4" style="--r:3deg;--tr:3deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir São João de Maracás"><img src="../assets/works/sao-joao.jpg" alt="Quadro de São João de Maracás" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>São João de Maracás</b><span>festa junina · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="campanhas" data-prev="../assets/works/da-bros-p.mp4" data-full="../assets/works/da-bros.mp4" style="--r:-2deg;--tr:-3deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Da Bros"><img src="../assets/works/da-bros.jpg" alt="Quadro de Da Bros" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Da Bros</b><span>tipografia animada · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="eventos" data-prev="../assets/works/bossman-dlow-p.mp4" data-full="../assets/works/bossman-dlow.mp4" style="--r:1.5deg;--tr:6deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Bossman Dlow"><img src="../assets/works/bossman-dlow.jpg" alt="Quadro de Bossman Dlow" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Bossman Dlow</b><span>flyer animado · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="eventos" data-prev="../assets/works/bad-boys-p.mp4" data-full="../assets/works/bad-boys.mp4" style="--r:-3deg;--tr:-4deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Bad Boys"><img src="../assets/works/bad-boys.jpg" alt="Quadro de Bad Boys" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Bad Boys</b><span>flyer animado · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="eventos" data-prev="../assets/works/roots-p.mp4" data-full="../assets/works/roots.mp4" style="--r:2.5deg;--tr:5deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Roots · Grand Opening"><img src="../assets/works/roots.jpg" alt="Quadro de Roots · Grand Opening" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Roots · Grand Opening</b><span>flyer animado · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="eventos" data-prev="../assets/works/mr-miyagi-p.mp4" data-full="../assets/works/mr-miyagi.mp4" style="--r:-1.5deg;--tr:-6deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Mr. Miyagi Club"><img src="../assets/works/mr-miyagi.jpg" alt="Quadro de Mr. Miyagi Club" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Mr. Miyagi Club</b><span>flyer animado · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="eventos" data-prev="../assets/works/dia-dos-pais-p.mp4" data-full="../assets/works/dia-dos-pais.mp4" style="--r:3deg;--tr:3deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Dia dos Pais · Duarte"><img src="../assets/works/dia-dos-pais.jpg" alt="Quadro de Dia dos Pais · Duarte" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Dia dos Pais · Duarte</b><span>promoção · 9:16</span></figcaption>
+        </figure>
+        <figure class="print v" data-set="eventos" data-prev="../assets/works/tbt-nelson-p.mp4" data-full="../assets/works/tbt-nelson.mp4" style="--r:-2deg;--tr:-3deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir #TBT com Nelson"><img src="../assets/works/tbt-nelson.jpg" alt="Quadro de #TBT com Nelson" width="540" height="960" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>#TBT com Nelson</b><span>vinheta · 9:16</span></figcaption>
+        </figure>
+        <figure class="print h" data-set="logos" data-prev="../assets/works/juca-folia-p.mp4" data-full="../assets/works/juca-folia.mp4" style="--r:1.5deg;--tr:6deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Juca Folia"><img src="../assets/works/juca-folia.jpg" alt="Quadro de Juca Folia" width="960" height="540" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Juca Folia</b><span>logo animado · 16:9</span></figcaption>
+        </figure>
+        <figure class="print h" data-set="logos" data-prev="../assets/works/comercial-braga-p.mp4" data-full="../assets/works/comercial-braga.mp4" style="--r:-3deg;--tr:-4deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Comercial Braga"><img src="../assets/works/comercial-braga.jpg" alt="Quadro de Comercial Braga" width="960" height="540" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Comercial Braga</b><span>comercial · 16:9</span></figcaption>
+        </figure>
+        <figure class="print h" data-set="logos" data-prev="../assets/works/logos-bahia-p.mp4" data-full="../assets/works/logos-bahia.mp4" style="--r:2.5deg;--tr:5deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Maracás e Governo da Bahia"><img src="../assets/works/logos-bahia.jpg" alt="Quadro de Maracás e Governo da Bahia" width="960" height="540" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Maracás e Governo da Bahia</b><span>logos animados · 16:9</span></figcaption>
+        </figure>
+        <figure class="print h" data-set="logos" data-prev="../assets/works/bahia-mudou-p.mp4" data-full="../assets/works/bahia-mudou.mp4" style="--r:-1.5deg;--tr:-6deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir A Bahia mudou"><img src="../assets/works/bahia-mudou.jpg" alt="Quadro de A Bahia mudou" width="960" height="540" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>A Bahia mudou</b><span>loop de painel · 16:9</span></figcaption>
+        </figure>
+        <figure class="print b" data-set="logos" data-prev="../assets/works/mottus-p.mp4" data-full="../assets/works/mottus.mp4" style="--r:3deg;--tr:3deg">
+          <span class="tape" aria-hidden="true"></span>
+          <button class="open" type="button" aria-label="Assistir Mottus"><img src="../assets/works/mottus.jpg" alt="Quadro de Mottus" width="960" height="160" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+          <figcaption><b>Mottus</b><span>banner animado · 6:1</span></figcaption>
+        </figure>
+          <button class="next" type="button" id="nextNote"><span class="tape" aria-hidden="true"></span><b>e agora?</b><span id="nextName">eventos →</span></button>
+        </div>
+        <div class="fcap wrap">
+          <p class="now" aria-live="polite"><b class="hand" id="fTitle">Mega Feirão de Piso</b><span id="fKind">anúncio de varejo · 9:16</span></p>
+          <p class="meter"><svg class="pen" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path class="pen-bg" d="M3 14 C 60 4, 120 22, 180 11 S 262 6, 297 13"/><path class="pen-fg" id="pen" d="M3 14 C 60 4, 120 22, 180 11 S 262 6, 297 13" pathLength="1"/></svg><span class="hand" id="fCount">1 de 5</span></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -333,10 +482,16 @@ ul,ol{list-style:none;padding:0}
       <span class="tape" aria-hidden="true"></span>
       <p class="ps hand" aria-hidden="true">respondo em 1 dia útil!</p>
       <h2 class="wide" id="t-contact">Vamos animar?</h2>
-      <a class="mail" href="mailto:contato@jbdesigner.com.br?subject=Projeto%20de%20motion">contato@jbdesigner.com.br</a>
+      <a class="mail" href="mailto:jbdesignerofc@gmail.com?subject=Projeto%20de%20motion">jbdesignerofc@<wbr>gmail.com</a>
       <div class="row">
-        <a class="btn" href="mailto:contato@jbdesigner.com.br?subject=Projeto%20de%20motion">Escrever e-mail</a>
-        <ul><li><a class="link" href="https://br.pinterest.com/jbdesignerofc/">Pinterest</a></li><li><a class="link" href="#">Instagram</a></li><li><a class="link" href="#">Behance</a></li></ul>
+        <div class="acts">
+          <a class="btn" href="mailto:jbdesignerofc@gmail.com?subject=Projeto%20de%20motion">Escrever e-mail</a>
+          <a class="btn wa" href="https://wa.me/5573998659704?text=Ol%C3%A1%2C%20Joalyson!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener" data-wa>Chamar no WhatsApp</a>
+        </div>
+        <ul class="reach">
+          <li><a class="link" href="https://www.instagram.com/joalyson_motion/" target="_blank" rel="noopener">Instagram <span>@joalyson_motion</span></a></li>
+          <li><a class="link" href="https://wa.me/5573998659704?text=Ol%C3%A1%2C%20Joalyson!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener" data-wa>WhatsApp <span>(73) 99865-9704</span></a></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -345,15 +500,85 @@ ul,ol{list-style:none;padding:0}
 <footer class="foot">
   <svg class="torn" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true"><path data-torn="21"/></svg>
   <div class="legal wrap">
-    <p>© 2026 Joalyson · Peças de exemplo · Fotos de apoio nos vídeos: Unsplash via Picsum.</p>
+    <p><a class="link" href="mailto:jbdesignerofc@gmail.com">jbdesignerofc@gmail.com</a> · <a class="link" href="https://www.instagram.com/joalyson_motion/" target="_blank" rel="noopener">@joalyson_motion</a> · <a class="link" href="https://wa.me/5573998659704?text=Ol%C3%A1%2C%20Joalyson!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener" data-wa>WhatsApp (73) 99865-9704</a><br>© 2026 Joalyson</p>
     <p><a class="link" href="../">Ver todas as opções</a> · <a class="link" href="#topo">Voltar ao topo</a></p>
   </div>
   <p class="big wide" aria-hidden="true">Joalyson</p>
 </footer>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lbTitle" hidden>
+  <div class="lb-sheet" id="lbSheet">
+    <span class="tape" aria-hidden="true"></span>
+    <div class="lb-media"><video id="lbVid" controls playsinline preload="none"></video></div>
+    <div class="lb-cap"><b class="hand" id="lbTitle"></b><span id="lbKind"></span></div>
+    <div class="lb-nav">
+      <button class="lb-b hand" type="button" id="lbPrev">← anterior</button>
+      <button class="lb-b hand" type="button" id="lbNext">próxima →</button>
+      <button class="btn" type="button" id="lbClose">fechar</button>
+    </div>
+  </div>
+</div>
 <script>
 /* Portuguese is the page's own text; English replaces it node by node and returns it on the way back */
 const EN = {
+  "Chamar no WhatsApp":"Message on WhatsApp",
+  "e agora?":"what's next?",
+  "Joalyson segurando um notebook, recortado como um adesivo com contorno vermelho":"Joalyson holding a laptop, cut out as a sticker with a red outline",
+  "Peças reais de campanhas, eventos e marcas. Role para atravessar o caderno e clique numa peça para ver com som.":"Real pieces for campaigns, events and brands. Scroll through the notebook and click a piece to watch it with sound.",
+  "Categorias":"Categories",
+  "campanhas":"campaigns",
+  "eventos":"events",
+  "logos e formatos":"logos & formats",
+  "← anterior":"← previous",
+  "próxima →":"next →",
+  "fechar":"close",
+  "anúncio de varejo · 9:16":"retail ad · 9:16",
+  "Assistir Mega Feirão de Piso":"Watch Mega Feirão de Piso",
+  "Quadro de Mega Feirão de Piso":"Frame from Mega Feirão de Piso",
+  "campanha política · 9:16":"political campaign · 9:16",
+  "Assistir Comício do Time":"Watch Comício do Time",
+  "Quadro de Comício do Time":"Frame from Comício do Time",
+  "Assistir Juntos pelo Trabalho":"Watch Juntos pelo Trabalho",
+  "Quadro de Juntos pelo Trabalho":"Frame from Juntos pelo Trabalho",
+  "festa junina · 9:16":"São João festival · 9:16",
+  "Assistir São João de Maracás":"Watch São João de Maracás",
+  "Quadro de São João de Maracás":"Frame from São João de Maracás",
+  "tipografia animada · 9:16":"kinetic type · 9:16",
+  "Assistir Da Bros":"Watch Da Bros",
+  "Quadro de Da Bros":"Frame from Da Bros",
+  "flyer animado · 9:16":"animated flyer · 9:16",
+  "Assistir Bossman Dlow":"Watch Bossman Dlow",
+  "Quadro de Bossman Dlow":"Frame from Bossman Dlow",
+  "Assistir Bad Boys":"Watch Bad Boys",
+  "Quadro de Bad Boys":"Frame from Bad Boys",
+  "Assistir Roots · Grand Opening":"Watch Roots · Grand Opening",
+  "Quadro de Roots · Grand Opening":"Frame from Roots · Grand Opening",
+  "Assistir Mr. Miyagi Club":"Watch Mr. Miyagi Club",
+  "Quadro de Mr. Miyagi Club":"Frame from Mr. Miyagi Club",
+  "promoção · 9:16":"promo · 9:16",
+  "Dia dos Pais · Duarte":"Father's Day · Duarte",
+  "Assistir Dia dos Pais · Duarte":"Watch Father's Day · Duarte",
+  "Quadro de Dia dos Pais · Duarte":"Frame from Father's Day · Duarte",
+  "vinheta · 9:16":"ident · 9:16",
+  "#TBT com Nelson":"#TBT with Nelson",
+  "Assistir #TBT com Nelson":"Watch #TBT with Nelson",
+  "Quadro de #TBT com Nelson":"Frame from #TBT with Nelson",
+  "logo animado · 16:9":"animated logo · 16:9",
+  "Assistir Juca Folia":"Watch Juca Folia",
+  "Quadro de Juca Folia":"Frame from Juca Folia",
+  "comercial · 16:9":"commercial · 16:9",
+  "Assistir Comercial Braga":"Watch Comercial Braga",
+  "Quadro de Comercial Braga":"Frame from Comercial Braga",
+  "logos animados · 16:9":"animated logos · 16:9",
+  "Maracás e Governo da Bahia":"Maracás & Bahia State",
+  "Assistir Maracás e Governo da Bahia":"Watch Maracás & Bahia State",
+  "Quadro de Maracás e Governo da Bahia":"Frame from Maracás & Bahia State",
+  "loop de painel · 16:9":"panel loop · 16:9",
+  "Assistir A Bahia mudou":"Watch A Bahia mudou",
+  "Quadro de A Bahia mudou":"Frame from A Bahia mudou",
+  "banner animado · 6:1":"animated banner · 6:1",
+  "Assistir Mottus":"Watch Mottus",
+  "Quadro de Mottus":"Frame from Mottus",
   'Joalyson — Caderno de motion':'Joalyson — Motion notebook',
   'Joalyson, designer gráfico e motion designer. Animações que comunicam, envolvem e geram impacto.':'Joalyson, graphic and motion designer. Animations that communicate, engage and make an impact.',
   'Idioma':'Language','Principal':'Main','Sobre':'About','Trabalhos':'Work','Serviços':'Services','Bora':"Let's",'conversar':'talk',
@@ -402,6 +627,7 @@ const I18n = (function(){
   document.querySelectorAll(ATTRS.map(a => `[${a}]`).join(',')).forEach(el => ATTRS.forEach(a => { const v = el.getAttribute(a); if (v && EN[v]) els.push({ el, a, pt: v }); }));
   const meta = document.querySelector('meta[name="description"]'), metaPt = meta.content, titlePt = document.title;
   const mails = [...document.querySelectorAll('a[href^="mailto:"]')].map(a => ({ a, pt: a.getAttribute('href') }));
+  const was = [...document.querySelectorAll('a[data-wa]')].map(a => ({ a, pt: a.getAttribute('href') }));
   let cur = 'pt';
   function set(l){
     cur = l;
@@ -411,6 +637,7 @@ const I18n = (function(){
     document.documentElement.lang = en ? 'en' : 'pt-BR';
     document.title = en ? EN[titlePt] : titlePt; meta.content = en ? EN[metaPt] : metaPt;
     mails.forEach(({ a, pt }) => a.setAttribute('href', en ? pt.replace('Projeto%20de%20motion', 'Motion%20project') : pt));
+    was.forEach(({ a, pt }) => a.setAttribute('href', en ? pt.split('?')[0] + '?text=' + encodeURIComponent("Hi Joalyson! I saw your portfolio and I'd like to talk about a project.") : pt));
     try { localStorage.setItem('jb-lang', l); } catch (e) {}
     document.dispatchEvent(new CustomEvent('langchange', { detail:l }));
   }
@@ -480,15 +707,113 @@ document.querySelectorAll('[data-torn]').forEach(p => {
   grip.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') set(k - .05); if (e.key === 'ArrowRight' || e.key === 'ArrowUp') set(k + .05); });
 })();
 
+
+/* works: taped prints fly through the page as you scroll; the nearest one plays its loop; a click opens it with sound */
+const Works = (function(){
+  const fly = document.getElementById('fly'), world = document.getElementById('world');
+  const all = [...world.querySelectorAll('.print')], tabs = [...document.querySelectorAll('.tab')];
+  const fT = document.getElementById('fTitle'), fK = document.getElementById('fKind'), fC = document.getElementById('fCount'), pen = document.getElementById('pen');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SPOTS = [[-.2,-.03,-6],[.22,.05,5],[-.25,.07,-3],[.19,-.06,4],[-.08,.03,-5],[.25,0,3]];
+  let items = [], flying = false, progress = 0, intro = 0, near = 0;
+  const note = document.getElementById('nextNote'), noteName = document.getElementById('nextName'), bgword = document.getElementById('bgword');
+  const nextSet = () => { const k = tabs.findIndex(t => t.getAttribute('aria-pressed') === 'true'); return tabs[(k + 1) % tabs.length]; };
+  note.addEventListener('click', () => nextSet().click());
+  const gap = () => innerWidth < 700 ? 520 : 640;
+  const ofWord = () => (typeof I18n !== 'undefined' && I18n.get() === 'en') ? 'of' : 'de';
+  function preview(p, on){
+    if (on === !!p._on) return; p._on = on;
+    if (on && !p._v){ const v = document.createElement('video'); v.className = 'pv'; v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.poster = p.querySelector('img').src; v.src = p.dataset.prev; p.querySelector('.open').insertBefore(v, p.querySelector('.play')); p._v = v; }
+    if (p._v) on ? p._v.play().catch(()=>{}) : p._v.pause();
+  }
+  function caption(){
+    const cur = items[near]; if (!cur) return;
+    fT.textContent = cur.querySelector('figcaption b').textContent; fK.textContent = cur.querySelector('figcaption span').textContent;
+    fC.textContent = (near + 1) + ' ' + ofWord() + ' ' + items.length;
+  }
+  function render(){
+    const n = items.length, g = gap(), phone = innerWidth < 700;
+    const cam = progress * (n - 1) * g - intro;
+    let nd = 1e9, ni = 0;
+    items.forEach((p, i) => {
+      const sp = SPOTS[i % SPOTS.length], z = -i * g + cam;
+      const x = sp[0] * innerWidth * (phone ? .3 : 1), y = sp[1] * innerHeight;
+      const o = z > 260 ? Math.max(0, 1 - (z - 260) / 240) : z < -3400 ? 0 : z < -2400 ? (z + 3400) / 1000 : 1;
+      p.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotate(${sp[2]}deg)`;
+      p.style.opacity = o; p.style.visibility = o < .02 ? 'hidden' : 'visible';
+      p.style.pointerEvents = o > .6 && z < 200 ? 'auto' : 'none';
+      if (Math.abs(z) < nd){ nd = Math.abs(z); ni = i; }
+    });
+    const nz = -n * g + cam + g * .55, nx = (phone ? .08 : .2) * innerWidth;
+    note.style.transform = `translate(-50%,-50%) translate3d(${nx}px,${innerHeight * .04}px,${nz}px) rotate(4deg)`;
+    note.style.opacity = nz < -3400 ? 0 : nz < -2400 ? (nz + 3400) / 1000 : 1;
+    note.style.pointerEvents = nz > -900 ? 'auto' : 'none';
+    near = ni;
+    items.forEach((p, i) => preview(p, !reduce && i === near && nd < 520));
+    pen.style.strokeDashoffset = 1 - progress;
+    bgword.style.transform = `translate(${(.5 - progress) * 18}vw,-50%)`;
+    caption();
+  }
+  function pick(set, animate){
+    tabs.forEach(t => t.setAttribute('aria-pressed', t.dataset.set === set));
+    all.forEach(p => { const on = p.dataset.set === set; p.hidden = !on; if (!on) preview(p, false); });
+    items = all.filter(p => !p.hidden);
+    fly.style.setProperty('--n', items.length);
+    noteName.textContent = nextSet().textContent + ' →';
+    bgword.textContent = tabs.find(t => t.dataset.set === set).textContent;
+    if (!flying) return;
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    if (animate && window.gsap){ const o = { v:1600 }; gsap.to(o, { v:0, duration:1.1, ease:'expo.out', onUpdate:() => { intro = o.v; render(); } }); }
+    render();
+  }
+  tabs.forEach(t => t.addEventListener('click', () => {
+    pick(t.dataset.set, true);
+    if (flying && window.__lenis) window.__lenis.scrollTo(fly, { duration:1 });
+    if (window.gsap && !reduce) gsap.fromTo(t, { rotation:-10, scale:.9 }, { rotation:0, scale:1, duration:.7, ease:'elastic.out(1,.5)' });
+  }));
+  world.addEventListener('click', e => { const b = e.target.closest('.open'); if (!b) return; const p = b.closest('.print'); Lightbox.open(items, items.indexOf(p)); });
+  document.addEventListener('langchange', () => { caption(); const cur = tabs.find(t => t.getAttribute('aria-pressed') === 'true'); bgword.textContent = cur.textContent; noteName.textContent = nextSet().textContent + ' →'; });
+  return {
+    still(){ pick(tabs[0].dataset.set, false); },
+    start(){
+      flying = true; fly.classList.add('on'); pick(tabs[0].dataset.set, false);
+      ScrollTrigger.create({ trigger:fly, start:'top top', end:'bottom bottom', scrub:.7, onUpdate:s => { progress = s.progress; render(); }, onRefresh:s => { progress = s.progress; render(); } });
+      addEventListener('resize', render); render();
+    }
+  };
+})();
+
+/* lightbox: the piece opens as a taped sheet, with sound and controls */
+const Lightbox = (function(){
+  const lb = document.getElementById('lb'), sheet = document.getElementById('lbSheet'), vid = document.getElementById('lbVid');
+  const tt = document.getElementById('lbTitle'), kk = document.getElementById('lbKind');
+  let list = [], i = 0, opener = null;
+  function show(k){
+    i = (k + list.length) % list.length; const p = list[i];
+    vid.poster = p.querySelector('img').src; vid.src = p.dataset.full; vid.play().catch(()=>{});
+    tt.textContent = p.querySelector('figcaption b').textContent; kk.textContent = p.querySelector('figcaption span').textContent;
+    if (window.gsap && !matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.fromTo(sheet, { y:-40, rotation:4, opacity:.4 }, { y:0, rotation:-1, opacity:1, duration:.6, ease:'back.out(1.8)' });
+  }
+  function open(l, k){ opener = document.activeElement; list = l; lb.hidden = false; document.body.style.overflow = 'hidden'; window.__lenis && window.__lenis.stop(); show(k < 0 ? 0 : k); document.getElementById('lbClose').focus(); }
+  function close(){ vid.pause(); vid.removeAttribute('src'); vid.load(); lb.hidden = true; document.body.style.overflow = ''; window.__lenis && window.__lenis.start(); opener && opener.focus(); }
+  document.getElementById('lbClose').onclick = close;
+  document.getElementById('lbNext').onclick = () => show(i + 1);
+  document.getElementById('lbPrev').onclick = () => show(i - 1);
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  addEventListener('keydown', e => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') show(i + 1); if (e.key === 'ArrowLeft') show(i - 1);
+    if (e.key === 'Tab'){ const f = [...lb.querySelectorAll('button,video')]; const a = f[0], z = f[f.length - 1]; if (e.shiftKey && document.activeElement === a){ e.preventDefault(); z.focus(); } else if (!e.shiftKey && document.activeElement === z){ e.preventDefault(); a.focus(); } } });
+  return { open };
+})();
+
 (function(){
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const vids = document.querySelectorAll('video[data-v]');
   if (!reduce){ const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), { rootMargin:'80px' }); vids.forEach(v => io.observe(v)); }
-  if (!window.gsap || reduce){ root.classList.remove('js'); return; }
+  if (!window.gsap || reduce){ root.classList.remove('js'); Works.still(); return; }
   gsap.registerPlugin(ScrollTrigger);
 
-  const lenis = new Lenis({ lerp:.1 });
+  const lenis = new Lenis({ lerp:.1 }); window.__lenis = lenis;
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
   document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (!t) return; e.preventDefault(); lenis.scrollTo(t, { duration:1.4, offset:-20 }); }));
@@ -521,11 +846,9 @@ document.querySelectorAll('[data-torn]').forEach(p => {
   st.addEventListener('pointermove', e => { if (!drag) return; gsap.set(st.firstElementChild, { x:e.clientX - sx, y:e.clientY - sy }); });
   st.addEventListener('pointerup', () => { drag = false; st.style.cursor = ''; gsap.to(st.firstElementChild, { x:0, y:0, scale:1, rotation:0, duration:1.2, ease:'elastic.out(1,.45)' }); });
 
-  /* prints drop in, each from its own angle */
-  gsap.utils.toArray('.print').forEach((p, i) => {
-    gsap.from(p, { y:-90, opacity:0, rotation:(i % 2 ? 14 : -14), duration:1, ease:'back.out(1.6)', scrollTrigger:{ trigger:p, start:'top 88%', once:true } });
-    gsap.from(p.querySelector('.tape'), { scaleX:0, duration:.5, ease:'power2.out', delay:.5, scrollTrigger:{ trigger:p, start:'top 88%', once:true } });
-  });
+  /* works: the notebook's prints fly at you */
+  Works.start(lenis);
+  gsap.from('.tab', { y:-30, rotation:() => gsap.utils.random(-12, 12), opacity:0, duration:.8, ease:'back.out(2)', stagger:.08, scrollTrigger:{ trigger:'.tabs', start:'top 85%', once:true } });
 
   /* services: each time is circled by hand as it enters */
   gsap.utils.toArray('.slist ellipse').forEach(e => {
